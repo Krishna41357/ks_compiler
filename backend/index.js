@@ -1,11 +1,13 @@
 const express = require("express")
 const app = express();
 const {generateFile} = require("./generateFile");
-const {executeCpp} = require("./executeCpp");
+const {executeCode} = require("./executeCode");
+
+const cors = require("cors");
 
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
-
+app.use(cors());
 app.get("/",(req,res)=>{
     return res.json(({hello:"World"}))
 })
@@ -21,17 +23,7 @@ app.post("/run" , async(req,res)=>{
     // we need to generate a cpp file  with content from the request in it 
     //then we need to run the file and send the response
 
-    let output ;
-    switch(language){
-        case "cpp":
-            output = await executeCpp(filepath);
-            break;
-        case "py":
-            output = await executePy(filepath);
-            break;
-        default:
-            return res.status(400).json({success : false , error : "Unsupported language"})
-    }
+    let output = await executeCode(filepath, language);
     return res.json({filepath , output});
     } catch(err){
         res.status(500).json({err});
