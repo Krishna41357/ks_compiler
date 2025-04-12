@@ -19,6 +19,15 @@ const executeCode = (filepath, language) => {
 
             command = `g++ "${filepath}" -o "${outpath}" && cd "${outputPath}" && ./"${jobId}.out"`;
         } 
+        else if (language === "c") {
+            if (language === "cpp") {
+                const jobId = path.basename(filepath).split(".")[0];
+                const outpath = path.join(outputPath, `${jobId}.out`); // render is linux based hence .out otherwise for windows .exe
+                console.log(`Compiling ${filepath} to ${outpath}`);
+    
+                command = `g++ "${filepath}" -o "${outpath}" && cd "${outputPath}" && ./"${jobId}.out"`;
+            } 
+        }
         else if (language === "py") {
             command = `python "${filepath}"`;
         } 
