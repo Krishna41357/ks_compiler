@@ -14,10 +14,10 @@ const executeCode = (filepath, language) => {
         // Define the command based on language
         if (language === "cpp") {
             const jobId = path.basename(filepath).split(".")[0];
-            const outpath = path.join(outputPath, `${jobId}.exe`);
+            const outpath = path.join(outputPath, `${jobId}.out`); // render is linux based hence .out otherwise for windows .exe
             console.log(`Compiling ${filepath} to ${outpath}`);
 
-            command = `g++ "${filepath}" -o "${outpath}" && cd "${outputPath}" && "${jobId}.exe"`;
+            command = `g++ "${filepath}" -o "${outpath}" && cd "${outputPath}" && ./"${jobId}.out"`;
         } 
         else if (language === "py") {
             command = `python "${filepath}"`;
