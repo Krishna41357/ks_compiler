@@ -34,6 +34,10 @@ const executeCode = (filepath, language) => {
         else if (language === "js") {
             command = `node "${filepath}"`;
         } 
+        else if (language === "ts") {
+            const jsFilepath = filepath.replace('.ts', '.js');
+            command = `npx tsc "${filepath}" && node "${jsFilepath}"`;
+        }
         else if (language === "java") {
             const jobId = path.basename(filepath).split(".")[0];
             command = `javac "${filepath}" && java -cp "${path.dirname(filepath)}" "${jobId}"`;
